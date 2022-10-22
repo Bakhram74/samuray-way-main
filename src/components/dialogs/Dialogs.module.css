@@ -16,7 +16,10 @@
 }
 
 .message{}
+
 .block{
     display: block;
+    text-decoration: none;
+    color: white;
 }
 

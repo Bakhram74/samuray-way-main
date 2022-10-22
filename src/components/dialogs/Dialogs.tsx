@@ -1,54 +1,36 @@
 import React from 'react'
 import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
+import DialogItems from "./dialogItems/DialogItems";
+import Messages from "./messages/Messages";
 
-type DialogType = {
-    id: number
-    name: string
+type DialogsPageType={
+    dialogs:{name:string,id:number}[]
+    messages:{id:number,message:string}[]
 }
-type DialogItemType = {
-    items: DialogType[]
-}
-const DialogItems = (props: DialogItemType) => {
-    return (
-        <div className={s.dialog + ' ' + s.active}>
-            {props.items.map(d => {
-                return (
-                    <NavLink className={s.block} to={'/dialogs/' + d.id}>{d.name}</NavLink>
-                )
-            })}
-        </div>
-    )
-}
-const persons = [
-    {name: "Dimych", id: 1},
-    {name: "Andrey", id: 2},
-    {name: "Sasha", id: 3},
-    {name: "Sveta", id: 4},
-    {name: "Victor", id: 5},
-    {name: "Valera", id: 6},
-]
 
-
-const Messages = (props:any)=>{
-    return(
-    <div className={s.message}>{props.massage}</div>
+type typeDialogs = {
+    state:DialogsPageType
+}
+export const Dialogs = (props: typeDialogs) => {
+    let dialogsElements = props.state.dialogs.map((d) => {
+        return (
+            <DialogItems id={d.id} name={d.name}/>
         )
-}
-
-export const Dialogs = () => {
+    })
+    const messagesElements = props.state.messages.map((m: { message: any; }) => {
+        return (
+            <Messages message={m.message}/>
+        )
+    })
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>
-                <DialogItems items={persons}/>
+                {dialogsElements}
             </div>
             <div className={s.messages}>
-                <Messages massage={"Hi"}/>
-                <Messages massage={"How are you"}/>
-                <Messages massage={"Yo"}/>
-                <Messages massage={"Yo"}/>
-                <Messages massage={"Yo"}/>
+                {messagesElements}
             </div>
+
         </div>
     )
 }
