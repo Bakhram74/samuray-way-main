@@ -4,15 +4,15 @@ import {Header} from "./components/header/Header";
 import {Music, NavBar, News, Settings} from "./components/navBar/NavBar";
 import {Profile} from "./components/profile/Profile";
 import {Dialogs} from "./components/dialogs/Dialogs";
-import {BrowserRouter as Br, Route} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
+import {StoreType} from "./redux/state";
 
-
-function App(props: AppStateType) {
-    const dialogsHandler = () => <Dialogs state={props.state.dialogsPage}/>
-
-    const profileHandler = () => <Profile state={props.state.profilePage}/>
+function App(props:AppPropsType) {
+    const state = props.store.getState()
+    const dialogsHandler = () => <Dialogs state={state.dialogsPage}/>
+    const profileHandler = ()=><Profile profilePage={state.profilePage} addPost={props.store.addPost.bind(props.store)} updateNewPostText={props.store.updateNewPostText.bind(props.store)}/>
     return (
-        <Br>
+        <BrowserRouter>
             <div className={"app-wrapper"}>
                 <Header/>
                 <NavBar/>
@@ -25,26 +25,12 @@ function App(props: AppStateType) {
                     <Route path='/settings' component={Settings}/>
                 </div>
             </div>
-        </Br>
+        </BrowserRouter>
 
 
     );
 }
-type AppStateType = {
-    state:StateType
+type AppPropsType = {
+    store:StoreType
 }
-
-export type StateType = {
-
-    profilePage: {
-        post: { id: number, message: string, likesCount: number }[]
-    },
-    dialogsPage: {
-        dialogs: { name: string, id: number }[],
-        messages: { id: number, message: string }[]
-    },
-
-}
-
-
 export default App;

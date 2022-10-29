@@ -1,5 +1,4 @@
 import React from "react";
-// @ts-ignore
 import s from './Header.module.css'
 export function Header(){
  return(
