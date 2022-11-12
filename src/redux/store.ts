@@ -1,9 +1,15 @@
+
+import profileReducer, {AddPostActionType, UpdateNewPostActionType} from "./profile-reducer";
+import dialogReducer, {SendMessageActionType, UpdateNewMessageActionType} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
 export type PostType = {
     id: number
     message: string
     likesCount: number
 
 }
+
 export type ProfilePageType = {
     post: PostType[]
     newText: string
@@ -21,8 +27,9 @@ export type MessagesType = {
 export type DialogsPageType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
+    newMessageBody: string
 }
-type sidebar = {}
+export type sidebar = {}
 
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -30,14 +37,18 @@ export type RootStateType = {
     sidebar: sidebar
 }
 
+export type ActionType =
+    AddPostActionType
+    | UpdateNewPostActionType
+    | UpdateNewMessageActionType
+    | SendMessageActionType
 
 export type StoreType = {
     _state: RootStateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
-    _rerenderTree: () => void
-    subscribe: (observer: () => void) => void
-    getState:()=>RootStateType
+    _onChange: () => void
+    subscribe: (callBack: () => void) => void
+    getState: () => RootStateType
+    dispatch: (action: ActionType) => void
 }
 const store: StoreType = {
     _state: {
@@ -46,14 +57,14 @@ const store: StoreType = {
                 {id: 1, message: 'Hi how are you', likesCount: 12},
                 {id: 2, message: 'Its my post', likesCount: 11}
             ],
-            newText: 'it-kamakaka'
+            newText: ""
         },
         dialogsPage: {
             dialogs: [
-                {name: "Dimych", id: 1},
+                {name: "Dmitriy", id: 1},
                 {name: "Andrey", id: 2},
                 {name: "Sasha", id: 3},
-                {name: "Sveta", id: 4},
+                {name: "Svetlana", id: 4},
                 {name: "Victor", id: 5},
                 {name: "Valera", id: 6},
             ],
@@ -63,32 +74,25 @@ const store: StoreType = {
                 {id: 3, message: "Yo"},
                 {id: 4, message: "Yo"},
                 {id: 5, message: "Yo"}
-            ]
+            ],
+            newMessageBody: ""
         },
         sidebar: {}
     },
-     addPost(){
-        const newPost: PostType = {
-            id: 5,
-            message: this._state.profilePage.newText,
-            likesCount: 0
-        }
-         this._state.profilePage.post.push(newPost)
-        this._state.profilePage.newText = ''
-        this._rerenderTree()
+    subscribe(callBack: () => void) {
+        this._onChange = callBack
     },
-    updateNewPostText(newText: string){
-        this._state.profilePage.newText = newText
-        this._rerenderTree()
+    getState() {
+        return this._state
     },
-    _rerenderTree(){
+    _onChange() {
         console.log('state changed')
     },
-    subscribe(observer: () => void){
-        this._rerenderTree = observer
-    },
-    getState(){
-        return this._state
+    dispatch(action) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+        sidebarReducer(this._state.sidebar, action)
+        this._onChange()
     }
 }
 export default store

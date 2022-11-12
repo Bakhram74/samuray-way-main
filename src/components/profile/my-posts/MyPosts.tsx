@@ -2,9 +2,9 @@ import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./post/Post";
 import {ProfilePropsType} from "../Profile";
+import {AddPostCreator, UpdateNewPostCreator} from "../../../redux/profile-reducer";
 
 export function MyPosts(props: ProfilePropsType) {
-
     let postsElements = props.profilePage.post.map((p) => {
         return (
             <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
@@ -12,15 +12,13 @@ export function MyPosts(props: ProfilePropsType) {
     })
     const newPostElement = React.createRef<HTMLTextAreaElement>()
     const onClickHandler = () => {
-            props.addPost()
+            props.dispatch(AddPostCreator())
     }
     const onChangeHandler = () => {
         if (newPostElement.current) {
-            props.updateNewPostText(newPostElement.current.value)
+            props.dispatch(UpdateNewPostCreator(newPostElement.current.value))
         }
     }
-
-
     return (
         <div className={s.postBlock}>
             <h3>My posts</h3>
