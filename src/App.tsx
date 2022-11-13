@@ -4,15 +4,12 @@ import {Header} from "./components/header/Header";
 import {Music, NavBar, News, Settings} from "./components/navBar/NavBar";
 import {Profile} from "./components/profile/Profile";
 import {BrowserRouter, Route} from "react-router-dom";
-import { StoreType} from "./redux/store";
-import {DialogsComponent} from "./components/dialogs/DialogsComponent";
+import {DialogsContainer} from "./components/dialogs/DialogsContainer";
 
-function App(props: AppPropsType) {
-    const dialogsHandler = () => {
-        return <DialogsComponent store={props.store}/>
-    }
-    const profileHandler = () =>
-        <Profile store={props.store}/>
+function App() {
+    const dialogsHandler = () => <DialogsContainer />
+
+    const profileHandler = () => <Profile/>
     return (
         <BrowserRouter>
             <div className={"app-wrapper"}>
@@ -33,7 +30,4 @@ function App(props: AppPropsType) {
     );
 }
 
-type AppPropsType = {
-    store: StoreType
-}
 export default App;

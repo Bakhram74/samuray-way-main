@@ -1,8 +1,6 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./post/Post";
-import {ProfilePropsType} from "../Profile";
-import {AddPostCreator, UpdateNewPostCreator} from "../../../redux/profile-reducer";
 import {PostType} from "../../../redux/store";
 type MyPostsPropsType = {
     updateNewPostText:(text:string)=>void
