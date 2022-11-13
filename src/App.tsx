@@ -5,15 +5,15 @@ import {Music, NavBar, News, Settings} from "./components/navBar/NavBar";
 import {Profile} from "./components/profile/Profile";
 import {Dialogs} from "./components/dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import {StoreType} from "./redux/store";
+import {RootStateType, StoreType} from "./redux/store";
 
 function App(props: AppPropsType) {
     const state = props.store.getState()
-    const dialogsHandler = () =>{
-     return   <Dialogs state={state.dialogsPage} dispatch={props.store.dispatch}/>
+    const dialogsHandler = () => {
+        return <Dialogs state={state.dialogsPage} dispatch={props.store.dispatch.bind(props.store)}/>
     }
     const profileHandler = () =>
-        <Profile profilePage={state.profilePage} dispatch={props.store.dispatch}/>
+        <Profile profilePage={state.profilePage} dispatch={props.store.dispatch.bind(props.store)}/>
     return (
         <BrowserRouter>
             <div className={"app-wrapper"}>

@@ -1,4 +1,4 @@
-import {ActionType,} from "./store";
+import {ActionType, DialogsPageType,} from "./store";
 
 export type UpdateNewMessageActionType = ReturnType<typeof UpdateSendMessageCreator>
 export const UpdateSendMessageCreator = (body: string) => {
