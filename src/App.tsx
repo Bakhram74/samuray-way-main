@@ -7,12 +7,13 @@ import {Dialogs} from "./components/dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import {StoreType} from "./redux/store";
 
-function App(props:AppPropsType) {
+function App(props: AppPropsType) {
     const state = props.store.getState()
-    const dialogsHandler = () =>
-        <Dialogs state={state.dialogsPage} dispatch={props.store.dispatch.bind(props.store)}/>
-    const profileHandler = ()=>
-        <Profile profilePage={state.profilePage} dispatch={props.store.dispatch.bind(props.store)}/>
+    const dialogsHandler = () =>{
+     return   <Dialogs state={state.dialogsPage} dispatch={props.store.dispatch}/>
+    }
+    const profileHandler = () =>
+        <Profile profilePage={state.profilePage} dispatch={props.store.dispatch}/>
     return (
         <BrowserRouter>
             <div className={"app-wrapper"}>
@@ -32,7 +33,8 @@ function App(props:AppPropsType) {
 
     );
 }
+
 type AppPropsType = {
-    store:StoreType
+    store: StoreType
 }
 export default App;

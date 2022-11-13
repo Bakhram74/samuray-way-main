@@ -12,8 +12,11 @@ type typeDialogs = {
     state: DialogsPageType
     dispatch: (action: ActionType) => void
 }
+
 export const Dialogs = (props: typeDialogs) => {
+
     const dialogsElements = props.state.dialogs.map((d) => {
+
         return (
             <DialogItems key={d.id} id={d.id} name={d.name}/>
         )
