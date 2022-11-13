@@ -3,17 +3,16 @@ import './App.css';
 import {Header} from "./components/header/Header";
 import {Music, NavBar, News, Settings} from "./components/navBar/NavBar";
 import {Profile} from "./components/profile/Profile";
-import {Dialogs} from "./components/dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import {RootStateType, StoreType} from "./redux/store";
+import { StoreType} from "./redux/store";
+import {DialogsComponent} from "./components/dialogs/DialogsComponent";
 
 function App(props: AppPropsType) {
-    const state = props.store.getState()
     const dialogsHandler = () => {
-        return <Dialogs state={state.dialogsPage} dispatch={props.store.dispatch.bind(props.store)}/>
+        return <DialogsComponent store={props.store}/>
     }
     const profileHandler = () =>
-        <Profile profilePage={state.profilePage} dispatch={props.store.dispatch.bind(props.store)}/>
+        <Profile store={props.store}/>
     return (
         <BrowserRouter>
             <div className={"app-wrapper"}>
