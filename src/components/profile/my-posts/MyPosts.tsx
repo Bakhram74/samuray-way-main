@@ -1,16 +1,11 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./post/Post";
-import {PostType} from "../../../redux/store";
-type MyPostsPropsType = {
-    updateNewPostText:(text:string)=>void
-    addPost:()=>void
-    post:PostType[]
-    newText:string
-}
+import {MyPostsPropsType} from "./MyPostsContainer";
+
 
 export function MyPosts(props: MyPostsPropsType) {
-    let postsElements = props.post.map((p) => {
+    let postsElements = props.profilePage.post.map((p) => {
         return (
             <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
         )
@@ -28,7 +23,7 @@ export function MyPosts(props: MyPostsPropsType) {
         <div className={s.postBlock}>
             <h3>My posts</h3>
             <div>
-                <textarea onChange={onChangeHandler} ref={newPostElement} value={props.newText}></textarea>
+                <textarea onChange={onChangeHandler} ref={newPostElement} value={props.profilePage.newText}></textarea>
             </div>
             <div>
                 <button onClick={onClickHandler}>Add post</button>

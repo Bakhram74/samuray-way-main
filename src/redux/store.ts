@@ -3,39 +3,12 @@ import profileReducer, {AddPostActionType, UpdateNewPostActionType} from "./prof
 import dialogReducer, {SendMessageActionType, UpdateNewMessageActionType} from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
-export type PostType = {
-    id: number
-    message: string
-    likesCount: number
 
-}
 
-export type ProfilePageType = {
-    post: PostType[]
-    newText: string
-}
-export type DialogsType = {
-    name: string
-    id: number
-}
 
-export type MessagesType = {
-    id: number
-    message: string
-}
 
-export type DialogsPageType = {
-    dialogs: DialogsType[]
-    messages: MessagesType[]
-    newMessageBody: string
-}
-export type sidebar = {}
 
-export type RootStateType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
-    sidebar: sidebar
-}
+
 
 export type ActionType =
     AddPostActionType
@@ -43,13 +16,7 @@ export type ActionType =
     | UpdateNewMessageActionType
     | SendMessageActionType
 
-export type StoreType = {
-    _state: RootStateType
-    _onChange: () => void
-    subscribe: (callBack: () => void) => void
-    getState: () => RootStateType
-    dispatch: (action: ActionType) => void
-}
+
 // const store: StoreType = {
 //     _state: {
 //         profilePage: {

@@ -1,4 +1,4 @@
-import {ActionType, DialogsPageType,} from "./store";
+import {ActionType} from "./store";
 
 export type UpdateNewMessageActionType = ReturnType<typeof UpdateSendMessageCreator>
 export const UpdateSendMessageCreator = (body: string) => {
@@ -8,6 +8,14 @@ export type SendMessageActionType = ReturnType<typeof SendMessageCreator>
 export const SendMessageCreator = () => {
     return {type: "SEND-MESSAGE"} as const
 }
+ export type DialogsType = {
+    name: string
+    id: number
+}
+export type MessagesType = {
+    id: number
+    message: string
+}
 const  dialogsPage = {
         dialogs: [
             {name: "Dmitriy", id: 1},
@@ -16,27 +24,28 @@ const  dialogsPage = {
             {name: "Svetlana", id: 4},
             {name: "Victor", id: 5},
             {name: "Valera", id: 6},
-        ],
+        ] as DialogsType[],
         messages: [
             {id: 1, message: "Hi"},
             {id: 2, message: "How are you"},
             {id: 3, message: "Yo"},
             {id: 4, message: "Yo"},
             {id: 5, message: "Yo"}
-        ],
-        newMessageBody: ""
+        ] as MessagesType[],
+        newMessageBody: "" as string
     }
+export type DialogsPageType = typeof dialogsPage
 
-const dialogReducer = (state= dialogsPage, action: ActionType) => {
+const dialogReducer = (state:DialogsPageType= dialogsPage, action: ActionType):DialogsPageType => {
     switch (action.type) {
-        case "UPDATE-NEW-MESSAGE-BODY":
-            state.newMessageBody = action.body
-            return state;
+        case "UPDATE-NEW-MESSAGE-BODY":{
+            return {...state, newMessageBody: action.body};
+        }
         case "SEND-MESSAGE":
             const body = state.newMessageBody
-            state.newMessageBody = ""
-            state.messages.push({id: 6, message: body})
-            return state;
+            return {...state,
+                newMessageBody:'',
+                messages:[...state.messages,{id: 6, message: body}]}
         default:
             return state;
     }

@@ -6,6 +6,7 @@ import {Profile} from "./components/profile/Profile";
 import {BrowserRouter, Route} from "react-router-dom";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer";
 
+
 function App() {
     const dialogsHandler = () => <DialogsContainer />
 

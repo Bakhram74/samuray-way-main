@@ -2,21 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store from "./redux/redux-store";
-import {StoreType} from "./redux/store";
-import StoreContext from "./StoreContext";
+import {store} from "./redux/redux-store";
+import {Provider} from "react-redux";
 
 
-export const rerenderTree = (store:StoreType)=>{
+export const rerenderTree = ()=>{
 
     ReactDOM.render(
-        <StoreContext.Provider value={store}>
+        <Provider store={store}>
         <App/>
-        </StoreContext.Provider>,
+        </Provider>,
         document.getElementById('root')
     );
 }
-rerenderTree(store)
+rerenderTree()
 store.subscribe(()=>{
-    rerenderTree(store)
+    rerenderTree()
 })
