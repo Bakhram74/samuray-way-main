@@ -32,7 +32,7 @@ const  dialogsPage = {
             {id: 4, message: "Yo"},
             {id: 5, message: "Yo"}
         ] as MessagesType[],
-        newMessageBody: "" as string
+        newMessageBody: ""
     }
 export type DialogsPageType = typeof dialogsPage
 
