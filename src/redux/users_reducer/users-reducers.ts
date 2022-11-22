@@ -1,12 +1,15 @@
 import {ActionType} from "../store";
 
 export type UserType = {
+    name: string,
     id: number,
-    photoUrl:string,
+    uniqueUrlName:string|null
+    photos:{
+        small: string | null,
+        large:string|null
+    },
     followed: boolean,
-    fullName: string,
-    status: string,
-    location: { city: string, country: string }
+    status: string|null,
 }
 
 export type UsersPageType = {
@@ -17,7 +20,7 @@ const usersPage:UsersPageType = {
 }
 
 
- const usersReducer = (state: UsersPageType = usersPage, action: ActionType): UsersPageType => {
+const usersReducer = (state: UsersPageType = usersPage, action: ActionType): UsersPageType => {
     switch (action.type) {
         case 'FOLLOW':
             return {

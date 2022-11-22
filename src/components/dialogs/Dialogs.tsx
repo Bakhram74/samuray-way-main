@@ -8,7 +8,6 @@ import {DialogsPropsType} from "./DialogsContainer";
 export const Dialogs = (props: DialogsPropsType) => {
 
     const dialogsElements = props.dialogsPage.dialogs.map((d) => {
-
         return (
             <DialogItems key={d.id} id={d.id} name={d.name}/>
         )
