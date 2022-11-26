@@ -1,15 +1,19 @@
 import profileReducer, {AddPostActionType, UpdateNewPostActionType} from "./profile-reducer";
 import dialogReducer, {SendMessageActionType, UpdateNewMessageActionType} from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
-import {FollowACType, SetUsersType, UnFollowACType} from "./users_reducer/users-reducers";
+import {
+    FollowACType,
+    SetCurrentPageAT,
+    SetTotalUsersCountAT,
+    SetUsersType,
+    UnFollowACType
+} from "./users_reducer/users-reducers";
 
 
 export type ActionType =
-    AddPostActionType
-    | UpdateNewPostActionType
-    | UpdateNewMessageActionType
-    | SendMessageActionType
-    | FollowACType | UnFollowACType | SetUsersType
+    AddPostActionType | UpdateNewPostActionType
+    | UpdateNewMessageActionType | SendMessageActionType
+
 
 // const store: StoreType = {
 //     _state: {
