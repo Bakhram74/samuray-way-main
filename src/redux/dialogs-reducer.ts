@@ -34,9 +34,9 @@ const  dialogsPage = {
         ] as MessagesType[],
         newMessageBody: ""
     }
-export type DialogsPageType = typeof dialogsPage
+export type InitDialogsPageType = typeof dialogsPage
 
-const dialogReducer = (state:DialogsPageType= dialogsPage, action: ActionType):DialogsPageType => {
+const dialogReducer = (state:InitDialogsPageType= dialogsPage, action: ActionType):InitDialogsPageType => {
     switch (action.type) {
         case "UPDATE-NEW-MESSAGE-BODY":{
             return {...state, newMessageBody: action.body};

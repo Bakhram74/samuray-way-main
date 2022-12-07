@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react'
 import s from './Dialogs.module.css'
 import DialogItems from "./dialogItems/DialogItems";
 import Messages from "./messages/Messages";
-import {DialogsPropsType} from "./DialogsContainer";
+import {DialogsPropsType,} from "./DialogsContainer";
 
 
 export const Dialogs = (props: DialogsPropsType) => {

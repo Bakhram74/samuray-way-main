@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogReducer from "./dialogs-reducer";
-import {legacy_createStore as createStore} from 'redux'
+import { createStore} from 'redux'
 import usersReducer from "./users_reducer/users-reducers";
 
 
