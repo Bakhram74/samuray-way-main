@@ -1,7 +1,7 @@
 import React from "react";
-// @ts-ignore
+
 import s from './NavBar.module.css';
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export function NavBar() {
     return (

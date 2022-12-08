@@ -6,3 +6,9 @@
 .header img{
     width: 20px;
 }
+
+.login{
+    float:right;
+    color: white;
+    text-decoration: none;
+}

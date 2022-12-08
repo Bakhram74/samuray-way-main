@@ -13,14 +13,14 @@ export type UserType = {
 
 export type InitUsersPageType = {
     users: Array<UserType>
-    pageSize: number
+    usersOnPage: number
     totalUsersCount: number
     currentPage: number
     isFetching:boolean
 }
 const initUsersPage: InitUsersPageType = {
     users: [],
-    pageSize: 100,
+    usersOnPage: 100,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching:true

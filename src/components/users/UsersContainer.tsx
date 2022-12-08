@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/store/redux-store";
 
 import {
     follow,
@@ -16,7 +16,7 @@ import Preloader from "../common/preloader/Preloader";
 
 type MapStateToPropsType = {
     usersPage: Array<UserType>
-    pageSize:number
+    usersOnPage:number
     totalUsersCount:number
     currentPage:number
     isFetching:boolean
@@ -34,7 +34,7 @@ export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
 const mapStateToProps = (state:AppStateType):MapStateToPropsType =>{
     return{
         usersPage: state.users.users,
-        pageSize: state.users.pageSize,
+        usersOnPage: state.users.usersOnPage,
         totalUsersCount:state.users.totalUsersCount,
         currentPage:state.users.currentPage,
         isFetching:state.users.isFetching
@@ -51,10 +51,10 @@ const mapDispatchToProps = {
 }
 
 
-class UsersContainer extends React.Component<UsersPropsType>{
+  class UsersContainer extends React.Component<UsersPropsType>{
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.usersOnPage}`)
             .then(response=>{
                 this.props.setUsers(response.data.items)
                 this.props.setTotalUsersCount(response.data.totalCount)
@@ -64,7 +64,7 @@ class UsersContainer extends React.Component<UsersPropsType>{
     onSetCurrentPage = (pageNumber:number)=>{
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersOnPage}`)
             .then(response=>{
                 this.props.setUsers(response.data.items)
                 this.props.setIsFetching(false)
@@ -78,7 +78,7 @@ class UsersContainer extends React.Component<UsersPropsType>{
                </div>
                 <Users usersPage={this.props.usersPage}
                    currentPage={this.props.currentPage}
-                   pageSize={this.props.pageSize}
+                       usersOnPage={this.props.usersOnPage}
                    totalUsersCount={this.props.totalUsersCount}
                    follow={this.props.follow}
                    unFollow={this.props.unFollow}

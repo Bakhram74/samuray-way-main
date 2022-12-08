@@ -1,15 +1,15 @@
 import React from "react";
 
 import {MyPosts} from "./MyPosts";
-import {AddPostCreator, InitStateType, UpdateNewPostCreator} from "../../../redux/profile-reducer";
+import {AddPostCreator, InitProfileStateType, UpdateNewPostCreator} from "../../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {AppStateType} from "../../../redux/redux-store";
+import {AppStateType} from "../../../redux/store/redux-store";
 import {Dispatch} from "redux";
 
 export type MyPostsPropsType = MapStateToPropsType & mapDispatchToReducerType
 
 type MapStateToPropsType = {
-    profilePage: InitStateType
+    profilePage: InitProfileStateType
 }
 type mapDispatchToReducerType = {
     updateNewPostText:(text:string)=>void

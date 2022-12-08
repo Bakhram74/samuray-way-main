@@ -7,7 +7,7 @@ import {NavLink} from "react-router-dom";
 type UsersGetPropsType = {
     usersPage: Array<UserType>
     onSetCurrentPage: (pageNumber: number) => void
-    pageSize: number
+    usersOnPage: number
     totalUsersCount: number
     currentPage: number
     follow: (id: number) => void
@@ -15,7 +15,7 @@ type UsersGetPropsType = {
 }
 
 export const Users = (props: UsersGetPropsType) => {
-    const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    const pagesCount = Math.ceil(props.totalUsersCount / props.usersOnPage)   // users 14 pages 3
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -23,19 +23,19 @@ export const Users = (props: UsersGetPropsType) => {
     return (
         <div>
             <div>
-                {pages.map(p => {
+                {pages.map(page => {
 
                     return (
-                        <span key={p} className={props.currentPage === p ? s.selectedPage : ''}
-                              onClick={() => props.onSetCurrentPage(p)}
-                        >{p}</span>
+                        <span key={page} className={props.currentPage === page ? s.selectedPage : ''}
+                              onClick={() => props.onSetCurrentPage(page)}
+                        >{page}</span>
                     )
                 })}
             </div>
 
             {props.usersPage.map(u => {
-                return (<div key={u.id}>
-
+                return (
+                    <div key={u.id}>
       <span>
           <NavLink to={'/profile/'+u.id}><img src={u.photos.small !== null ? u.photos.small : user_png} alt="avatar"
                     className={s.userPhoto}/></NavLink>

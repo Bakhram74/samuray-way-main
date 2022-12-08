@@ -41,7 +41,7 @@ export type ProfileType = {
     }
 }
 
-const initState:InitStateType  = {
+const initProfilePage:InitProfileStateType  = {
     post: [
         {id: 1, message: 'Hi how are you', likesCount: 12},
         {id: 2, message: 'Its my post', likesCount: 11}
@@ -49,7 +49,7 @@ const initState:InitStateType  = {
     profile: null,
     newText: ""
 }
-export type InitStateType = {
+export type InitProfileStateType = {
     post: PostType[]
     profile: null|ProfileType
     newText:string
@@ -57,7 +57,7 @@ export type InitStateType = {
 
 type ActionProfileType = AddPostActionType | UpdateNewPostActionType | SetUserProfileAT
 
-const profileReducer = (state = initState, action: ActionProfileType): InitStateType => {
+const profileReducer = (state = initProfilePage, action: ActionProfileType): InitProfileStateType => {
     switch (action.type) {
         case "ADD-POST": {
             return {
@@ -68,9 +68,9 @@ const profileReducer = (state = initState, action: ActionProfileType): InitState
         case "UPDATE-NEW-POST-TEXT":
             return {...state, newText: action.newActionText}
         case "SET-USER-PROFILE":
-            return {...state,profile: action.profile}
+            return {...state,profile:action.profile}
         default:
-            return state;
+            return state
     }
 
 }
