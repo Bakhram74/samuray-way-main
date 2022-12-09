@@ -14,7 +14,6 @@ const initAuthData:InitAuthDataType = {
 
 
 const authReducer = (state = initAuthData, action: SetUserDataType): InitAuthDataType => {
-
     switch (action.type){
         case "SET-USER-DATA":{
             return {...state,...action.data,isAuth:true}
