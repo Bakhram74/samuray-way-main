@@ -1,39 +1,18 @@
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import {AppStateType} from "../../redux/store/redux-store";
 
 import {
     follow,
-    setCurrentPage, setFollowingAC, setIsFetching, setTotalUsersCount,
-    setUsers,
-    unFollow,
-    UserType
+    getUsers, setCurrentPage,
+    setFollowingAC, unFollow,
+
+
 } from "../../redux/users_reducer/users-reducers";
 import React from "react";
 import {Users} from "./Users";
 import Preloader from "../common/preloader/Preloader";
-import {usersAPI} from "../../api/api";
 
-
-type MapStateToPropsType = {
-    usersPage: Array<UserType>
-    usersOnPage: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-    followingInProgress:string[]
-}
-type MapDispatchToPropsType = {
-    follow: (id: string) => void
-    unFollow: (id: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    setIsFetching: (isFetching: boolean) => void
-    setFollowingAC: (isFollowing: boolean,id:string) => void
-}
-export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
-
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+const mapStateToProps = (state: AppStateType)=> {
     return {
         usersPage: state.users.users,
         usersOnPage: state.users.usersOnPage,
@@ -41,40 +20,28 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         currentPage: state.users.currentPage,
         isFetching: state.users.isFetching,
        followingInProgress:state.users.followingInProgress
+
     }
 }
 const mapDispatchToProps = {
     follow,
     unFollow,
-    setUsers,
     setCurrentPage,
-    setTotalUsersCount,
-    setIsFetching,
-    setFollowingAC
+    setFollowingAC,
+    getUsers
 }
 
 
-class UsersContainer extends React.Component<UsersPropsType> {
-    componentDidMount() {
-        this.props.setIsFetching(true)
-        usersAPI().getUsers(this.props.currentPage, this.props.usersOnPage)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.setTotalUsersCount(data.totalCount)
-                this.props.setIsFetching(false)
-            })
-    }
+class UsersContainer extends React.Component<HeaderProps> {
+
+     componentDidMount() {
+         this.props.getUsers(this.props.currentPage,this.props.usersOnPage)
+     }
 
     onSetCurrentPage = (pageNumber: number) => {
-        this.props.setIsFetching(true)
+        this.props.getUsers(pageNumber,this.props.usersOnPage)
         this.props.setCurrentPage(pageNumber)
-        usersAPI().getUsers(pageNumber, this.props.usersOnPage)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.setIsFetching(false)
-            })
     }
-
     render() {
         return (
             <>
@@ -96,5 +63,8 @@ class UsersContainer extends React.Component<UsersPropsType> {
         )
     }
 }
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+type HeaderProps = ConnectedProps<typeof connector>;
+
+export default connector(UsersContainer)

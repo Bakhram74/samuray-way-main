@@ -1,3 +1,6 @@
+import {usersAPI} from "../../api/api";
+import {Dispatch} from "redux";
+
 export type UserType = {
     name: string,
     id: string,
@@ -20,7 +23,7 @@ export type InitUsersPageType = {
 }
 const initUsersPage: InitUsersPageType = {
     users: [],
-    usersOnPage: 100,
+    usersOnPage: 10,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
@@ -89,15 +92,15 @@ const usersReducer = (state: InitUsersPageType = initUsersPage, action: ActionUs
 }
 export default usersReducer
 
-export const follow = (id: string) => {
+export const followSuccess = (id: string) => {
     return {type: "FOLLOW", userId: id} as const
 }
-type FollowACType = ReturnType<typeof follow>
+type FollowACType = ReturnType<typeof followSuccess>
 
-export const unFollow = (id: string) => {
+export const unFollowSuccess = (id: string) => {
     return {type: "UNFOLLOW", userId: id} as const
 }
-type UnFollowACType = ReturnType<typeof unFollow>
+type UnFollowACType = ReturnType<typeof unFollowSuccess>
 
 export const setUsers = (users: Array<UserType>) => {
     return {type: "SET_USERS", users: users} as const
@@ -119,7 +122,44 @@ export const setIsFetching = (isFetching: boolean) => {
 }
 type SetIsFetchingAT = ReturnType<typeof setIsFetching>
 
-export const setFollowingAC = (isFollowing: boolean , id: string) => {
+export const setFollowingAC = (isFollowing: boolean, id: string) => {
     return {type: 'TOGGLE-IS-FOLLOWING', isFollowing, id} as const
 }
 type SetFollowingInProgressAT = ReturnType<typeof setFollowingAC>
+
+
+export const getUsers = (currentPage:number,usersOnPage:number) => {
+    return (dispatch:Dispatch) => {
+        dispatch(setIsFetching(true))
+        usersAPI().getUsersAPI(currentPage, usersOnPage)
+            .then(data => {
+               dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+                dispatch(setIsFetching(false))
+            })
+    }
+}
+export const follow = (userId:string) => {
+    return (dispatch:Dispatch) => {
+        dispatch(setFollowingAC(true,userId))
+        usersAPI().followApi(userId)
+            .then(resultCode => {
+                if (resultCode === 0) {
+                   dispatch(followSuccess(userId))
+                }
+                dispatch(setFollowingAC(false,userId))
+            })
+    }
+}
+export const unFollow = (userId:string) => {
+    return (dispatch:Dispatch) => {
+        dispatch(setFollowingAC(true,userId))
+        usersAPI().unFollowApi(userId)
+            .then(resultCode => {
+                if (resultCode === 0) {
+                    dispatch(unFollowSuccess(userId))
+                }
+                dispatch(setFollowingAC(false,userId))
+            })
+    }
+}

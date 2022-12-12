@@ -1,10 +1,10 @@
 import React from 'react';
 import s from "./Users.module.css";
 import user_png from "./user-images/images.jpeg";
-import {UserType} from "../../redux/users_reducer/users-reducers";
+import { UserType} from "../../redux/users_reducer/users-reducers";
 import {NavLink} from "react-router-dom";
 
-import {usersAPI} from "../../api/api";
+
 
 type UsersGetPropsType = {
     usersPage: Array<UserType>
@@ -45,30 +45,13 @@ export const Users = (props: UsersGetPropsType) => {
                                                 className={s.userPhoto}/></NavLink>
     <div>
         {u.followed
+            ? <button disabled={props.followingInProgress.some(id=>id === u.id)} onClick={() => props.unFollow(u.id)}>
+                Unfollow
+                </button>
 
-            ? <button disabled={props.followingInProgress.some(id=>id === u.id)} onClick={() => {
-                props.setFollowing(true,u.id)
-                usersAPI().unFollowApi(u.id)
-                    .then(resultCode => {
-                        if (resultCode === 0) {
-                            props.unFollow(u.id)
-                        }
-                        props.setFollowing(false,u.id)
-                    })
-            }
-            }>Unfollow</button>
-
-            : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-
-                props.setFollowing(true,u.id)
-                usersAPI().followApi(u.id)
-                    .then(resultCode => {
-                        if (resultCode === 0) {
-                            props.follow(u.id)
-                        }
-                        props.setFollowing(false,u.id)
-                    })
-            }}>Follow</button>}
+            : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={()=>props.follow(u.id)}>
+                Follow
+            </button>}
     </div>
       </span>
                         <span>

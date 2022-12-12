@@ -1,52 +1,51 @@
 import React from "react";
 import {Profile} from "./Profile";
-import axios from "axios";
-import {connect} from "react-redux";
-import {ProfileType, setUserProfile} from "../../redux/profile-reducer";
+
+import {connect, ConnectedProps} from "react-redux";
+import {getUserProfile, setUserProfile} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/store/redux-store";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import axios from "axios";
+import {usersAPI} from "../../api/api";
+
 
 type PathParamsType = {
     userId: string
 }
 
-class ProfileContainer extends React.Component<ProfilePropsType & RouteComponentProps<PathParamsType>> {
-
+class ProfileContainer extends React.Component< HeaderProps & RouteComponentProps<PathParamsType> > {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = '2'
         }
-        axios.get('https://social-network.samuraijs.com/api/1.0/profile/' + userId)
-            .then(response => {
-                this.props.setUserProfile(response.data)
-            })
+       this.props.getUserProfile(userId)
+
     }
 
     render() {
         return (
             <div>
-                <Profile {...this.props} />
+                <Profile profile={this.props.profile} />
             </div>
         )
     }
 }
 
-export type ProfilePropsType = MapStateToPropsType & MapDispatchToPropsType
 
-type MapDispatchToPropsType = {
-    setUserProfile: (profile: ProfileType) => void
-}
-type MapStateToPropsType = {
-    profile: ProfileType | null
-}
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+
+
+const mapStateToProps = (state: AppStateType) => ({
     profile: state.profilePage.profile
 })
-const mapDispatchToProps:MapDispatchToPropsType = {
-    setUserProfile
+
+const mapDispatchToProps = {
+     getUserProfile
 }
 
 const ProfileContainerWithUrl = withRouter(ProfileContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+type HeaderProps = ConnectedProps<typeof connector>
+export default connector(ProfileContainerWithUrl)
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainerWithUrl)
+
