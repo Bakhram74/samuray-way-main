@@ -1,5 +1,5 @@
 import React from 'react';
-import oval from "../../users/user-images/grid.svg";
+import oval from "../../components/users/user-images/grid.svg";
 
 const Preloader = () => {
     return (

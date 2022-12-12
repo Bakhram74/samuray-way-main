@@ -1,7 +1,7 @@
 import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import {InitAuthDataType} from "../../redux/auth-reducer";
+import {InitAuthDataType} from "../../redux/auth_reducer/auth-reducer";
 
 export function Header(props:InitAuthDataType){
  return(

@@ -10,7 +10,7 @@ import {
 } from "../../redux/users_reducer/users-reducers";
 import React from "react";
 import {Users} from "./Users";
-import Preloader from "../common/preloader/Preloader";
+import Preloader from "../../common/preloader/Preloader";
 
 const mapStateToProps = (state: AppStateType)=> {
     return {

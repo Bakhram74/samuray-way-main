@@ -1,8 +1,8 @@
 import React from "react";
 
 import s from './ProfileInfo.module.css'
-import {ProfileType} from "../../../redux/profile-reducer";
-import Preloader from "../../common/preloader/Preloader";
+import {ProfileType} from "../../../redux/profile_reducer/profile-reducer";
+import Preloader from "../../../common/preloader/Preloader";
 import userPhoto  from '../../users/user-images/images.jpeg'
 type ProfileInfoPropsType={
     profile:ProfileType|null

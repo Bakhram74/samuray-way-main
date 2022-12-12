@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers} from "redux";
-import profileReducer from "../profile-reducer";
-import dialogReducer from "../dialogs-reducer";
+import profileReducer from "../profile_reducer/profile-reducer";
+import dialogReducer from "../dialogs_reducer/dialogs-reducer";
 import { createStore} from 'redux'
 import usersReducer from "../users_reducer/users-reducers";
-import authReducer from "../auth-reducer";
+import authReducer from "../auth_reducer/auth-reducer";
 import thunkMiddleWare from "redux-thunk";
 
 

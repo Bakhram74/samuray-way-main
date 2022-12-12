@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
 import {NavBar} from "./components/navBar/NavBar";
-import {Route, Router} from "react-router-dom";
+import {Route} from "react-router-dom";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
+import Login from "./components/login/Login";
 
 
 function App() {
-
     return (
             <div className={"app-wrapper"}>
                 <HeaderContainer/>
@@ -18,6 +18,7 @@ function App() {
                     <Route path='/dialogs' render={()=><DialogsContainer/>}/>
                     <Route path='/profile/:userId?' render={()=><ProfileContainer/>}/>
                     <Route path='/users' render={()=><UsersContainer/>}/>
+                    <Route path='/login' render={()=><Login/>}/>
 
                 </div>
             </div>
