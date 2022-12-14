@@ -1,3 +1,5 @@
+import {Dispatch} from "redux";
+import {authMe} from "../../api/api";
 
 export type InitAuthDataType = {
     id: number|null,
@@ -35,4 +37,13 @@ export const setUserDataAC = (data:InitAuthDataType):SetUserDataType=>{
         type:'SET-USER-DATA',
         data
     }
+}
+
+export const authAPI = ()=>(dispatch:Dispatch)=>{
+    authMe.me()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+               dispatch(setUserDataAC(response.data.data))
+            }
+        })
 }

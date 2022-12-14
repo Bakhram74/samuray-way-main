@@ -4,11 +4,11 @@ import {Dialogs} from "./Dialogs";
 import {InitDialogsPageType, SendMessageCreator, UpdateSendMessageCreator} from "../../redux/dialogs_reducer/dialogs-reducer";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store/redux-store";
+import {withAuthRedirect} from "../../hok/withAuthReducer";
 
 
 type MapStateToPropsType = {
     dialogsPage: InitDialogsPageType
-    isAuth: boolean
 }
 type MapDispatchToReducerType = {
     updateNewMessageBody: (text: string) => void
@@ -19,7 +19,6 @@ type MapDispatchToReducerType = {
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         dialogsPage: state.dialogsPage,
-        isAuth: state.auth.isAuth
     }
 }
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToReducerType => {
@@ -32,6 +31,6 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToReducerType => {
         }
     }
 }
+let authRedirectComponent = withAuthRedirect(Dialogs)
 
-
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(authRedirectComponent)
