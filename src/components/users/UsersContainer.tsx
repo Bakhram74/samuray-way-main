@@ -58,7 +58,6 @@ class UsersContainer extends React.Component<HeaderProps> {
                        setFollowing={this.props.setFollowingAC}
                        followingInProgress={this.props.followingInProgress}
                 />
-
             </>
         )
     }

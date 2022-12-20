@@ -1,4 +1,4 @@
-import {usersAPI} from "../../api/api";
+import {profileAPI, usersAPI} from "../../api/api";
 import {Dispatch} from "redux";
 
 export type AddPostActionType = ReturnType<typeof AddPostCreator>
@@ -12,8 +12,12 @@ export const UpdateNewPostCreator = (newActionText: string) => {
 }
 
 type SetUserProfileAT = ReturnType<typeof setUserProfile>
-export const setUserProfile = (profile: ProfileType) => {
+ const setUserProfile = (profile: ProfileType) => {
     return {type: 'SET-USER-PROFILE', profile} as const
+}
+type SetUserStatusAT = ReturnType<typeof setUserStatus>
+ const setUserStatus = (status: string) => {
+    return {type: 'SET-USER-STATUS', status} as const
 }
 
 export const getUserProfile = (userId:string) =>(dispatch:Dispatch)=> {
@@ -22,6 +26,21 @@ export const getUserProfile = (userId:string) =>(dispatch:Dispatch)=> {
             dispatch(setUserProfile(response.data))
         })
 }
+export const getUserStatus = (userId:string) =>(dispatch:Dispatch)=> {
+    profileAPI.getStatus(userId)
+        .then(response=>{
+            dispatch(setUserStatus(response.data))
+        })
+}
+export const updateStatus = (status:string) =>(dispatch:Dispatch)=> {
+
+    profileAPI.updateStatus(status)
+        .then(response=>{
+            if (response.data.resultCode === 0)
+            dispatch(setUserStatus(status))
+        })
+}
+
 
 export type PostType = {
     id: number
@@ -49,6 +68,12 @@ export type ProfileType = {
         large: string
     }
 }
+export type InitProfileStateType = {
+    post: PostType[]
+    profile: null|ProfileType
+    newText:string
+    status:string
+}
 
 const initProfilePage:InitProfileStateType  = {
     post: [
@@ -56,15 +81,12 @@ const initProfilePage:InitProfileStateType  = {
         {id: 2, message: 'Its my post', likesCount: 11}
     ] ,
     profile: null,
-    newText: ""
-}
-export type InitProfileStateType = {
-    post: PostType[]
-    profile: null|ProfileType
-    newText:string
+    newText: "",
+    status:"" //todo
 }
 
-type ActionProfileType = AddPostActionType | UpdateNewPostActionType | SetUserProfileAT
+
+type ActionProfileType = AddPostActionType | UpdateNewPostActionType | SetUserProfileAT|SetUserStatusAT
 
 const profileReducer = (state = initProfilePage, action: ActionProfileType): InitProfileStateType => {
     switch (action.type) {
@@ -78,6 +100,8 @@ const profileReducer = (state = initProfilePage, action: ActionProfileType): Ini
             return {...state, newText: action.newActionText}
         case "SET-USER-PROFILE":
             return {...state,profile:action.profile}
+        case "SET-USER-STATUS":
+            return {...state,status:action.status}
         default:
             return state
     }

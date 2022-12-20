@@ -83,7 +83,7 @@ const usersReducer = (state: InitUsersPageType = initUsersPage, action: ActionUs
                 ...state,
                 followingInProgress: action.isFollowing ?
                     [...state.followingInProgress, action.id] :
-                    state.followingInProgress.filter(id => id != action.id)
+                    state.followingInProgress.filter(id => id !== action.id)
             }
         }
         default:
@@ -124,7 +124,7 @@ type SetIsFetchingAT = ReturnType<typeof setIsFetching>
 
 export const setFollowingAC = (isFollowing: boolean, id: string) => {
     return {type: 'TOGGLE-IS-FOLLOWING', isFollowing, id} as const
-}
+}//todo
 type SetFollowingInProgressAT = ReturnType<typeof setFollowingAC>
 
 
