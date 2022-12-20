@@ -5,6 +5,7 @@ import {InitDialogsPageType, SendMessageCreator, UpdateSendMessageCreator} from 
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store/redux-store";
 import  { ComponentType} from "react";
+import {authRedirect} from "../../common/hok/AuthRedirect";
 
 
 export type  DialogsPropsType = MapStateToPropsType & MapDispatchToReducerType
@@ -35,7 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToReducerType => {
 
 
 const DialogsContainer =  compose<ComponentType>(connect(mapStateToProps, mapDispatchToProps)
-     // ,authRedirect
+     ,authRedirect
 )(Dialogs)
 
 export default DialogsContainer

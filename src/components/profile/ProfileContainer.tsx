@@ -50,5 +50,5 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type HeaderProps = ConnectedProps<typeof connector>
 
  export default compose<ComponentType>(connector,withRouter,
-     // authRedirect
+     authRedirect
  )(ProfileContainer)
