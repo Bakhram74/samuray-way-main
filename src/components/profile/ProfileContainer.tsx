@@ -15,7 +15,6 @@ type PathParamsType = {
 }
 class ProfileContainer extends React.Component<HeaderProps & RouteComponentProps<PathParamsType>> {
     componentDidMount() {
-        console.log('componentDidMount')
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = '2'

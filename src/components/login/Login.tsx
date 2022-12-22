@@ -1,51 +1,48 @@
 import React from 'react';
-import {Field, InjectedFormProps, reduxForm, } from "redux-form";
-
-type FormDataType = ({
-    login: string
-    password: string
-    rememberMe: boolean
-})
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+type FormDataType = {
+    login:string
+    password:string
+    rememberMe:boolean
+}
 
 const LoginForm = (props:InjectedFormProps<FormDataType>) => {
+    const { handleSubmit } = props
     return (
-        <div>
-            <form onSubmit={props.handleSubmit}>
-                <div>
-                    <Field type="text" placeholder={'login'} name={'login'} component={"input"}/>
-                </div>
-                <div>
-                    <Field type="text" placeholder={'password'} name={'password'} component={"input"}/>
-                </div>
-                <div>
-                    remember me<Field type="checkbox" name={"rememberMe"} component={"input"}/>
-                </div>
-                <div>
-                    <button>login</button>
-                </div>
-            </form>
-        </div>
+        <form onSubmit={handleSubmit} >
+            <div>
+                <Field name={'login'} placeholder={'Login'} component="input" />
+            </div>
+            <div>
+                <Field name={'password'} placeholder={'Password'} component="input" />
+            </div>
+            <div>
+                remember me<Field name={'rememberMe'} component="input"   type={'checkbox'}/>
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+
+        </form>
     );
 };
-
 const LoginReduxForm = reduxForm<FormDataType>({
-    form: "login"
-})
-(LoginForm)
-
-
+    form: 'login'
+})(LoginForm)
 
 const Login = () => {
-    const onSubmit = (formData: {}) => {
-        console.log(formData)
-    }
+   const submit = (formData:FormDataType)=>{
+       console.log(formData)
+   }
     return (
         <div>
-            <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <h2>Login</h2>
+            <LoginReduxForm onSubmit={submit}/>
         </div>
-
     );
 };
 
 export default Login;
+
+
+

@@ -2,13 +2,8 @@ import {profileAPI, usersAPI} from "../../api/api";
 import {Dispatch} from "redux";
 
 export type AddPostActionType = ReturnType<typeof AddPostCreator>
-export const AddPostCreator = () => {
-    return {type: "ADD-POST"} as const
-}
-
-export type UpdateNewPostActionType = ReturnType<typeof UpdateNewPostCreator>
-export const UpdateNewPostCreator = (newActionText: string) => {
-    return {type: "UPDATE-NEW-POST-TEXT", newActionText: newActionText} as const
+export const AddPostCreator = (value:string) => {
+    return {type: "ADD-POST",value} as const
 }
 
 type SetUserProfileAT = ReturnType<typeof setUserProfile>
@@ -71,7 +66,6 @@ export type ProfileType = {
 export type InitProfileStateType = {
     post: PostType[]
     profile: null|ProfileType
-    newText:string
     status:string
 }
 
@@ -81,23 +75,20 @@ const initProfilePage:InitProfileStateType  = {
         {id: 2, message: 'Its my post', likesCount: 11}
     ] ,
     profile: null,
-    newText: "",
     status:"" //todo
 }
 
 
-type ActionProfileType = AddPostActionType | UpdateNewPostActionType | SetUserProfileAT|SetUserStatusAT
+type ActionProfileType = AddPostActionType | SetUserProfileAT|SetUserStatusAT
 
 const profileReducer = (state = initProfilePage, action: ActionProfileType): InitProfileStateType => {
     switch (action.type) {
         case "ADD-POST": {
             return {
-                ...state, newText: '',
-                post: [...state.post, {id: 5, message: state.newText, likesCount: 0}]
+                ...state,
+                post: [...state.post, {id: 5, message: action.value, likesCount: 0}]
             }
         }
-        case "UPDATE-NEW-POST-TEXT":
-            return {...state, newText: action.newActionText}
         case "SET-USER-PROFILE":
             return {...state,profile:action.profile}
         case "SET-USER-STATUS":

@@ -1,13 +1,10 @@
-export type UpdateNewMessageActionType = ReturnType<typeof UpdateSendMessageCreator>
-export const UpdateSendMessageCreator = (body: string) => {
-    return {type: "UPDATE-NEW-MESSAGE-BODY", body: body} as const
-}
+
 export type SendMessageActionType = ReturnType<typeof SendMessageCreator>
-export const SendMessageCreator = () => {
-    return {type: "SEND-MESSAGE"} as const
+export const SendMessageCreator = (value:string) => {
+    return {type: "SEND-MESSAGE",value} as const
 }
 
-type ActionDialogsType = UpdateNewMessageActionType | SendMessageActionType
+type ActionDialogsType =  SendMessageActionType
 
 export type DialogsType = {
     name: string
@@ -33,20 +30,17 @@ const dialogsPage = {
         {id: 4, message: "Yo"},
         {id: 5, message: "Yo"}
     ] as MessagesType[],
-    newMessageBody: ""
+
 }
 export type InitDialogsPageType = typeof dialogsPage
 
 const dialogReducer = (state: InitDialogsPageType = dialogsPage, action: ActionDialogsType): InitDialogsPageType => {
     switch (action.type) {
-        case "UPDATE-NEW-MESSAGE-BODY": {
-            return {...state, newMessageBody: action.body};
-        }
+
         case "SEND-MESSAGE":
-            const body = state.newMessageBody
+            const body = action.value
             return {
                 ...state,
-                newMessageBody: '',
                 messages: [...state.messages, {id: 6, message: body}]
             }
         default:
