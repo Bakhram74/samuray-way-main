@@ -1,15 +1,16 @@
 import {Dispatch} from "redux";
 import {authMe} from "../../api/api";
+import {stopSubmit} from "redux-form";
 
 export type InitAuthDataType = {
-    id: number | null,
+    id:  string,
     login: string | null,
     email: string | null
     isAuth: boolean
 }
 
 const initAuthData: InitAuthDataType = {
-    id: null,
+    id: "",
     login: null,
     email: null,
     isAuth: false
@@ -42,7 +43,7 @@ export const authAPI = () => (dispatch: Dispatch) => {
     authMe.me()
         .then(response => {
             if (response.data.resultCode === 0) {
-                const { id,login,email,isAuth} = response.data.data
+                const { id,login,email} = response.data.data
                 dispatch(setUserDataAC({id,login,email,isAuth:true}))
             }
         })
@@ -55,26 +56,28 @@ export const login = (email: string, password: string, rememberMe: boolean) =>  
                 authMe.me()
                     .then(response => {
                         if (response.data.resultCode === 0) {
-                            const { id,login,email,isAuth} = response.data.data
+                            const {id,login,email} = response.data.data
                             dispatch(setUserDataAC({id,login,email,isAuth:true}))
                         }
                     })
-
+            }else {
+const message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
+                dispatch(stopSubmit("login", {_error: message}))
             }
         })
 }
+
 export const loginOut = () => (dispatch: Dispatch) => {
     authMe.loginOut()
         .then(response => {
             if (response.data.resultCode === 0) {
                             const payload = {
-                                id: null,
+                                id: "",
                                 login: null,
                                 email: null,
                                 isAuth: false
                             }
                             dispatch(setUserDataAC({...payload}))
-
             }
         })
 }

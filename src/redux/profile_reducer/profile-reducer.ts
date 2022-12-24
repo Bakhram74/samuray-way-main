@@ -16,6 +16,7 @@ type SetUserStatusAT = ReturnType<typeof setUserStatus>
 }
 
 export const getUserProfile = (userId:string) =>(dispatch:Dispatch)=> {
+    if (userId)
     usersAPI().getProfile(userId)
         .then(response=>{
             dispatch(setUserProfile(response.data))

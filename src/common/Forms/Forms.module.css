@@ -10,3 +10,9 @@
     font-size: 16px;
     opacity: .8;
 }
+.formSummaryError{
+    width:20%;
+    border: red 1px solid;
+    padding: 5px;
+    color: #dc1e1e;
+}
