@@ -1,9 +1,11 @@
-import {Dispatch} from "redux";
+import {AnyAction, Dispatch} from "redux";
 import {authMe} from "../../api/api";
 import {stopSubmit} from "redux-form";
+import {ThunkDispatch} from "redux-thunk/src/types";
+
 
 export type InitAuthDataType = {
-    id:  string,
+    id: string,
     login: string | null,
     email: string | null
     isAuth: boolean
@@ -40,28 +42,22 @@ export const setUserDataAC = (payload: InitAuthDataType): SetUserDataType => {
 }
 
 export const authAPI = () => (dispatch: Dispatch) => {
-    authMe.me()
+   return  authMe.me()
         .then(response => {
             if (response.data.resultCode === 0) {
-                const { id,login,email} = response.data.data
-                dispatch(setUserDataAC({id,login,email,isAuth:true}))
+                const {id, login, email} = response.data.data
+                dispatch(setUserDataAC({id, login, email, isAuth: true}))
             }
         })
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) =>  (dispatch: Dispatch) => {
-    authMe.login({email,password,rememberMe})
+export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: ThunkDispatch<InitAuthDataType, {}, AnyAction>) => {
+    authMe.login({email, password, rememberMe})
         .then(response => {
             if (response.data.resultCode === 0) {
-                authMe.me()
-                    .then(response => {
-                        if (response.data.resultCode === 0) {
-                            const {id,login,email} = response.data.data
-                            dispatch(setUserDataAC({id,login,email,isAuth:true}))
-                        }
-                    })
-            }else {
-const message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
+               dispatch(authAPI())
+            } else {
+                const message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
                 dispatch(stopSubmit("login", {_error: message}))
             }
         })
@@ -71,13 +67,14 @@ export const loginOut = () => (dispatch: Dispatch) => {
     authMe.loginOut()
         .then(response => {
             if (response.data.resultCode === 0) {
-                            const payload = {
-                                id: "",
-                                login: null,
-                                email: null,
-                                isAuth: false
-                            }
-                            dispatch(setUserDataAC({...payload}))
+                const payload = {
+                    id: "",
+                    login: null,
+                    email: null,
+                    isAuth: false
+                }
+                dispatch(setUserDataAC({...payload}))
             }
         })
 }
+

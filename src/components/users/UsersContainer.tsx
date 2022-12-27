@@ -1,9 +1,9 @@
 import {connect, ConnectedProps} from "react-redux";
-import {AppStateType} from "../../redux/store/redux-store";
+import {AppStateType} from "../../store/redux-store";
 
 import {
-    follow,
-    getUsers, setCurrentPage,
+    follow, getUsersRequest,
+    setCurrentPage,
     setFollowingAC, unFollow,
 
 
@@ -11,15 +11,33 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import Preloader from "../../common/preloader/Preloader";
+import {
+    getCurrentPage, getFollowingInProgress,
+    getIsFetching,
+    getTotalUsersCount, getUsers,
+    getUsersOnPage,
+} from "../../redux/users_reducer/users-selector";
+
+// const mapStateToProps = (state: AppStateType)=> {
+//     return {
+//         usersPage: state.users.users,
+//         usersOnPage: state.users.usersOnPage,
+//         totalUsersCount: state.users.totalUsersCount,
+//         currentPage: state.users.currentPage,
+//         isFetching: state.users.isFetching,
+//        followingInProgress:state.users.followingInProgress
+//
+//     }
+// }
 
 const mapStateToProps = (state: AppStateType)=> {
     return {
-        usersPage: state.users.users,
-        usersOnPage: state.users.usersOnPage,
-        totalUsersCount: state.users.totalUsersCount,
-        currentPage: state.users.currentPage,
-        isFetching: state.users.isFetching,
-       followingInProgress:state.users.followingInProgress
+        usersPage: getUsers(state),
+        usersOnPage: getUsersOnPage(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress:getFollowingInProgress(state)
 
     }
 }
@@ -28,18 +46,18 @@ const mapDispatchToProps = {
     unFollow,
     setCurrentPage,
     setFollowingAC,
-    getUsers
+    getUsersRequest: getUsersRequest
 }
 
 
 class UsersContainer extends React.Component<HeaderProps> {
 
      componentDidMount() {
-         this.props.getUsers(this.props.currentPage,this.props.usersOnPage)
+         this.props.getUsersRequest(this.props.currentPage,this.props.usersOnPage)
      }
 
     onSetCurrentPage = (pageNumber: number) => {
-        this.props.getUsers(pageNumber,this.props.usersOnPage)
+        this.props.getUsersRequest(pageNumber,this.props.usersOnPage)
         this.props.setCurrentPage(pageNumber)
     }
     render() {

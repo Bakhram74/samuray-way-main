@@ -128,7 +128,7 @@ export const setFollowingAC = (isFollowing: boolean, id: string) => {
 type SetFollowingInProgressAT = ReturnType<typeof setFollowingAC>
 
 
-export const getUsers = (currentPage:number,usersOnPage:number) => {
+export const getUsersRequest = (currentPage:number, usersOnPage:number) => {
     return (dispatch:Dispatch) => {
         dispatch(setIsFetching(true))
         usersAPI().getUsersAPI(currentPage, usersOnPage)
