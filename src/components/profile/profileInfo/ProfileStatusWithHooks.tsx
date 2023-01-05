@@ -6,7 +6,6 @@ type ProfileStatusPropsType = {
     status: string
 }
 
-
 const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
     const [status, setStatus] = useState(props.status)
     const [editMode, setEditMode] = useState(false)

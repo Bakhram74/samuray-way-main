@@ -7,27 +7,35 @@ import {maxLength, required} from "../../../utils/validators/validator";
 import {Forms} from "../../../common/Forms/Forms";
 
 
-export function MyPosts(props: MyPostsPropsType) {
-    let postsElements = props.profilePage.post.map((p) => {
+export class MyPosts extends React.PureComponent<MyPostsPropsType> {
+
+    // shouldComponentUpdate(nextProps: Readonly<MyPostsPropsType>, nextState: Readonly<{}>): boolean {
+    //     return nextProps != this.props || nextState != this.state
+    // }
+
+    render() {
+        console.log('my posts')
+        let postsElements = this.props.profilePage.post.map((p) => {
+            return (
+                <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
+            )
+        })
+        const addNewPost = (value: AddNewPostDataType) => {
+            this.props.addPost(value.newPost)
+        }
         return (
-            <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
-        )
-    })
-    const addNewPost = (value:AddNewPostDataType)=>{
-        props.addPost(value.newPost)
-    }
-    return (
-        <div className={s.postBlock}>
-            <h3>My posts</h3>
-          <AddNewReduxFormPost onSubmit={addNewPost}/>
-            <div className={s.posts}>
-                {postsElements}
+            <div className={s.postBlock}>
+                <h3>My posts</h3>
+                <AddNewReduxFormPost onSubmit={addNewPost}/>
+                <div className={s.posts}>
+                    {postsElements}
+                </div>
+
+
             </div>
 
-
-        </div>
-
-    )
+        )
+    }
 }
 
 type AddNewPostDataType={

@@ -24,10 +24,10 @@ export const usersAPI = () => {
             return instance.delete(`follow/${id}`)
                 .then(response => response.data.resultCode)
         },
-        getProfile:(userId:string)=>{
-            console.warn('Obsolete method. Please use profileAPI object')
-          return   profileAPI.getProfile(userId)
-        }
+        // getProfile:(userId:string)=>{
+        //     console.warn('Obsolete method. Please use profileAPI object')
+        //   return   profileAPI.getProfile(userId)
+        // }
     }
 }
 
