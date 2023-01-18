@@ -1,16 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component,Suspense} from 'react';
 import './App.css';
 import {NavBar} from "./components/navBar/NavBar";
-import {Route} from "react-router-dom";
-import DialogsContainer from "./components/dialogs/DialogsContainer";
+import {BrowserRouter, Route} from "react-router-dom";
 import UsersContainer from "./components/users/UsersContainer";
-import ProfileContainer from "./components/profile/ProfileContainer";
+// import DialogsContainer from "./components/dialogs/DialogsContainer";
+
+  // import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from "./components/login/Login";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import {initializeTC} from "./redux/app-reduser/app-reduser";
-import {AppStateType} from "./store/redux-store";
+import {AppStateType, store} from "./store/redux-store";
 import Preloader from "./common/preloader/Preloader";
+import {WithSuspense} from "./common/hok/WithSuspense";
+const DialogsContainer = React.lazy(()=> import("./components/dialogs/DialogsContainer"))
+const ProfileContainer = React.lazy(() => import('./components/profile/ProfileContainer'));
 
 
 class App extends Component<AppPropsType>{
@@ -26,8 +30,11 @@ class App extends Component<AppPropsType>{
                 <HeaderContainer/>
                 <NavBar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path='/dialogs' render={()=><DialogsContainer/>}/>
-                    <Route path='/profile/:userId?' render={()=><ProfileContainer/>}/>
+
+                    <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
+                    <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
+
+
                     <Route path='/users' render={()=><UsersContainer/>}/>
                     <Route path='/login' render={()=><Login/>}/>
                 </div>
@@ -47,4 +54,12 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     initialized:state.app.initialized
 })
 
-export default connect(mapStateToProps,{initializeTC})(App);
+const MainApp = connect(mapStateToProps,{initializeTC})(App);
+
+export const SamuraiApp = ()=>{
+  return  <BrowserRouter>
+        <Provider store={store}>
+            <MainApp/>
+        </Provider>
+    </BrowserRouter>
+}

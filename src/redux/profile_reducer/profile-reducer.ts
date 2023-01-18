@@ -22,19 +22,15 @@ export const getUserProfile = (userId:string) =>(dispatch:Dispatch)=> {
             dispatch(setUserProfile(response.data))
         })
 }
-export const getUserStatus = (userId:string) =>(dispatch:Dispatch)=> {
-    profileAPI.getStatus(userId)
-        .then(response=>{
+export const getUserStatus = (userId:string) =>async (dispatch:Dispatch)=> {
+ const response = await profileAPI.getStatus(userId)
             dispatch(setUserStatus(response.data))
-        })
-}
-export const updateStatus = (status:string) =>(dispatch:Dispatch)=> {
 
-    profileAPI.updateStatus(status)
-        .then(response=>{
+}
+export const updateStatus = (status:string) =>async (dispatch:Dispatch)=> {
+    const response = await profileAPI.updateStatus(status)
             if (response.data.resultCode === 0)
             dispatch(setUserStatus(status))
-        })
 }
 
 
@@ -82,7 +78,7 @@ const initProfilePage:InitProfileStateType  = {
 
 type ActionProfileType = AddPostActionType | SetUserProfileAT|SetUserStatusAT
 
-const profileReducer = (state = initProfilePage, action: ActionProfileType): InitProfileStateType => {
+export const profileReducer = (state = initProfilePage, action: ActionProfileType): InitProfileStateType => {
     switch (action.type) {
         case "ADD-POST": {
             return {
